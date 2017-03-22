@@ -1,0 +1,92 @@
+background yes
+font FreeSans:pixelsize=11
+xftfont FreeSans:pixelsize=11
+use_xft yes
+xftalpha 0.1
+update_interval 3.0
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+draw_shades yes
+draw_outline no
+draw_borders no
+draw_graph_borders yes
+minimum_size 1400 6
+maximum_width 225
+default_color ffffff
+default_shade_color 000000
+default_outline_color 000000
+alignment top_right
+gap_x 20
+gap_y 47
+no_buffers yes
+cpu_avg_samples 2
+override_utf8_locale no
+uppercase no # set to yes if you want all text to be in uppercase
+use_spacer no
+
+TEXT
+#${font FreeSans:style=Bold:pixelsize=11}${alignc}${time %H:%M} / ${time %d de %B}
+${font FreeSans:style=Bold:pixelsize=11}${alignc} $nodename
+${font FreeSans:style=Bold:pixelsize=11}$alignc$sysname $kernel $machine
+${font FreeSans:style=Bold:pixelsize=11}
+Uptime: $alignr$uptime
+Procesos: ${alignr}$processes ($running_processes running)
+#Load: ${alignr}$loadavg
+
+${font FreeSans:style=Bold:pixelsize=11}CPU${font FreeSans:pixelsize=11} ${alignc} ${freq}MHz / ${acpitemp}${iconv_start UTF-8 ISO_8859-1}°${iconv_stop}C ${alignr}(${cpu cpu0}%)
+#${cpugraph cpu1 20 cccccc ffffff }
+${cpubar cpu 1,5 225}
+#${font FreeSans:style=Bold:pixelsize=11}CPU2${font FreeSans:pixelsize=11} ${alignc} ${freq}MHz / ${acpitemp}C ${alignr}(${cpu cpu1}%)
+#${cpugraph cpu2 20 cccccc ffffff }
+
+${font FreeSans:pixelsize=11}RAM ${alignr}$mem / $memmax ($memperc%)
+${membar 4}
+${font FreeSans:pixelsize=11}SWAP ${alignr}$swap / $swapmax ($swapperc%)
+${swapbar 4}
+#${font FreeSans:pixelsize=11}Bateria: ${battery_percent BAT0}% ${alignr} ${if_empty ${battery_time}} ${else}Restante: ${battery_time} ${endif}
+
+${font FreeSans:style=Bold:pixelsize=11}Highest CPU $alignr CPU%${font FreeSans:pixelsize=10}
+${hr 1}
+${top name 1}$alignr${top cpu 1}
+${top name 2}$alignr${top cpu 2}
+${top name 3}$alignr${top cpu 3}
+${top name 4}$alignr${top cpu 4}
+${top name 5}$alignr${top cpu 5}
+
+${font FreeSans:style=Bold:pixelsize=11}Highest MEM $alignr MEM%${font FreeSans:pixelsize=10}
+${hr 1}
+${top_mem name 1}$alignr${top_mem mem 1}
+${top_mem name 2}$alignr${top_mem mem 2}
+${top_mem name 3}$alignr${top_mem mem 3}
+${top_mem name 4}$alignr${top_mem mem 4}
+${top_mem name 5}$alignr${top_mem mem 5}
+
+${font FreeSans:style=Bold:pixelsize=11}Sistema de archivos ${font FreeSans:pixelsize=10}
+/ ${alignr}${fs_free /} / ${fs_size /}
+${fs_bar 4 /}
+/home ${alignr}${fs_free /home} / ${fs_size /home}
+${fs_bar 4 /home}
+#/media/files ${alignr}${fs_free /media/files} / ${fs_size /media/files}
+#${fs_bar 4 /media/files}
+
+${if_existing /proc/net/route wlan0}
+${font FreeSans:style=Bold:pixelsize=11}Red WLAN ${font FreeSans:pixelsize=9} (${addr wlan0})
+Down ${downspeed wlan0} k/s ${alignr}Up ${upspeed wlan0} k/s
+${downspeedgraph wlan0 25,110 cccccc ffffff} ${alignr}${upspeedgraph wlan0 25,110 cccccc ffffff}
+Total ${totaldown wlan0} ${alignr}Total ${totalup wlan0}
+
+${else}${if_existing /proc/net/route eth0}
+${font FreeSans:style=Bold:pixelsize=11}Red LAN${font FreeSans:pixelsize=9} (${addr eth0})
+Down ${downspeed eth0} k/s ${alignr}Up ${upspeed eth0} k/s
+${downspeedgraph eth0 25,110 cccccc ffffff} ${alignr}${upspeedgraph eth0 25,110 cccccc ffffff}
+Total ${totaldown eth0} ${alignr}Total ${totalup eth0}
+${endif}
+${else}${if_existing /proc/net/route ppp0}
+${font FreeSans:style=Bold:pixelsize=10}Network LAN${font FreeSans:pixelsize=9} (${addr ppp0})
+Down ${downspeed ppp0} k/s ${alignr}Up ${upspeed ppp0} k/s
+${downspeedgraph ppp0 25,110 cccccc ffffff} ${alignr}${upspeedgraph ppp0 25,110 cccccc ffffff}
+Total ${totaldown ppp0} ${alignr}Total ${totalup ppp0}
+${endif}
