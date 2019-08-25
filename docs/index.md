@@ -1,5 +1,4 @@
 ---
-layout: page
 title: Configuraciones de Conky
 author: Parra
 image_example: /screenshots/conky_netbook.png
